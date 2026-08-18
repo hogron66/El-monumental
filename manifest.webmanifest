@@ -1,0 +1,14 @@
+{
+  "name": "El Monumental 1978 Scoreboard",
+  "short_name": "Monumental 78",
+  "description": "Interactive historical scoreboard for El Monumental, June 1978.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#050505",
+  "orientation": "landscape",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Monumental 78">
+  <title>El Monumental 1978 – Interactive Scoreboard</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section id="rotateOverlay" aria-live="polite">
+    <div class="rotate-phone" aria-hidden="true"><div class="rotate-screen"></div></div>
+    <h1>Landscape mode</h1>
+    <p>Rotate your phone to use the scoreboard.</p>
+  </section>
+
+  <main id="stage" aria-label="Interactive El Monumental stadium scoreboard, June 1978">
+    <section id="board" aria-label="Working historical scoreboard">
+      <img id="boardImage" src="assets/scoreboard-clean.png" alt="El Monumental scoreboard layout" draggable="false">
+
+      <canvas id="analogClock" class="analog-clock" aria-hidden="true"></canvas>
+      <button id="clockButton" class="transparent-hit clock-hit" type="button" aria-label="Open clock settings"></button>
+
+      <button id="titleField" class="field-button field-title" type="button" aria-label="Edit title text">
+        <span id="titleText" class="led-text led-title"></span>
+        <span class="edit-mark" aria-hidden="true">✎</span>
+      </button>
+
+      <button id="homeNameField" class="field-button field-home-name" type="button" aria-label="Edit home team name">
+        <span id="homeNameText" class="led-text led-name"></span>
+        <span class="edit-mark" aria-hidden="true">✎</span>
+      </button>
+
+      <button id="awayNameField" class="field-button field-away-name" type="button" aria-label="Edit away team name">
+        <span id="awayNameText" class="led-text led-name"></span>
+        <span class="edit-mark" aria-hidden="true">✎</span>
+      </button>
+
+      <button id="periodField" class="field-button field-period" type="button" aria-label="Edit period">
+        <span id="periodText" class="led-text led-period"></span>
+      </button>
+      <button id="periodMinus" class="cabinet-button period-minus" type="button" aria-label="Decrease period">−</button>
+      <button id="periodPlus" class="cabinet-button period-plus" type="button" aria-label="Increase period">+</button>
+
+      <button id="matchTimeField" class="field-button field-match-time" type="button" aria-label="Edit match timer">
+        <span id="matchTimeText" class="led-text led-timer"></span>
+        <span id="timerRunningLamp" class="running-lamp" aria-hidden="true"></span>
+      </button>
+
+      <div class="timer-controls" aria-label="Match timer controls">
+        <button id="timerStart" class="timer-button" type="button" aria-label="Start match timer">▶</button>
+        <button id="timerPause" class="timer-button" type="button" aria-label="Pause match timer">Ⅱ</button>
+        <button id="timerReset" class="timer-button" type="button" aria-label="Reset match timer">↺</button>
+        <button id="timerSettings" class="timer-button timer-set" type="button" aria-label="Open timer settings">SET</button>
+      </div>
+
+      <button id="homeScoreField" class="field-button field-home-score" type="button" aria-label="Edit home score">
+        <span id="homeScoreText" class="led-text led-score"></span>
+      </button>
+      <button id="homeScoreMinus" class="cabinet-button score-button home-score-minus" type="button" aria-label="Decrease home score">−</button>
+      <button id="homeScorePlus" class="cabinet-button score-button home-score-plus" type="button" aria-label="Increase home score">+</button>
+
+      <button id="awayScoreField" class="field-button field-away-score" type="button" aria-label="Edit away score">
+        <span id="awayScoreText" class="led-text led-score"></span>
+      </button>
+      <button id="awayScoreMinus" class="cabinet-button score-button away-score-minus" type="button" aria-label="Decrease away score">−</button>
+      <button id="awayScorePlus" class="cabinet-button score-button away-score-plus" type="button" aria-label="Increase away score">+</button>
+
+      <button id="fullscreenButton" class="fullscreen-button" type="button" aria-label="Fullscreen">⛶</button>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <header class="dialog-header">
+        <h2 id="dialogTitle"></h2>
+        <button id="dialogClose" class="dialog-close" type="button" aria-label="Close">×</button>
+      </header>
+      <form id="dialogForm">
+        <div id="dialogBody" class="dialog-body"></div>
+        <footer class="dialog-actions">
+          <button id="dialogCancel" class="dialog-secondary" type="button">Cancel</button>
+          <button class="dialog-primary" type="submit">Save</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
