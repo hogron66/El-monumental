@@ -1,6 +1,13 @@
-El Monumental 1978 Scoreboard – v3
+El Monumental 1978 Scoreboard – v5
 
 What changed in this version:
+- Uses the refined Digital Background V2 as the only background.
+- Centers the working analog clock in the upper-left anthracite panel.
+- Aligns the period and match-time values with their dedicated display cells.
+- Gives two-digit scores more space and moves the score minus/plus buttons farther apart.
+- Uses the new wider 2265 × 947 smartphone background supplied by the owner.
+- Every interactive display and control has been realigned to the new crop.
+- The four match-timer buttons are larger and easier to operate by touch.
 - Uses the supplied clean second reference photo as the only scoreboard background.
 - All colored annotation dots and markers are absent.
 - Home and away scores are smaller and match the visual height of the team names.

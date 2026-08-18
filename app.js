@@ -1,7 +1,7 @@
 (() => {
   const STORAGE_KEY = 'el-monumental-scoreboard-v2';
-  const BASE_WIDTH = 2423;
-  const BASE_HEIGHT = 1063;
+  const BASE_WIDTH = 2265;
+  const BASE_HEIGHT = 947;
   const MAX_SCORE = 99;
   const MAX_DURATION_MS = 99 * 60 * 1000 + 59 * 1000;
   const DEFAULT_STATE = {

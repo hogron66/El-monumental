@@ -6,8 +6,8 @@
 
 :root {
   color-scheme: dark;
-  --base-width: 2423;
-  --base-height: 1063;
+  --base-width: 2265;
+  --base-height: 947;
   --lamp: #f0f0ee;
   --panel-metal: rgba(42, 44, 44, 0.88);
 }
@@ -58,8 +58,8 @@ button {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 2423px;
-  height: 1063px;
+  width: 2265px;
+  height: 947px;
   transform-origin: 50% 50%;
   will-change: transform;
 }
@@ -155,24 +155,24 @@ button {
 
 .analog-clock {
   position: absolute;
-  left: 227px;
-  top: 154px;
+  left: 106px;
+  top: 98px;
   width: 292px;
   height: 292px;
   pointer-events: none;
 }
 
 .clock-hit {
-  left: 220px;
-  top: 147px;
+  left: 99px;
+  top: 91px;
   width: 306px;
   height: 306px;
   border-radius: 50%;
 }
 
 .field-title {
-  left: 905px;
-  top: 236px;
+  left: 821px;
+  top: 180px;
   width: 1030px;
   height: 66px;
 }
@@ -182,15 +182,15 @@ button {
 }
 
 .field-home-name {
-  left: 650px;
-  top: 453px;
+  left: 566px;
+  top: 397px;
   width: 730px;
   height: 70px;
 }
 
 .field-away-name {
-  left: 1545px;
-  top: 453px;
+  left: 1461px;
+  top: 397px;
   width: 710px;
   height: 70px;
 }
@@ -200,8 +200,8 @@ button {
 }
 
 .field-period {
-  left: 319px;
-  top: 494px;
+  left: 235px;
+  top: 438px;
   width: 66px;
   height: 72px;
 }
@@ -212,9 +212,9 @@ button {
 }
 
 .field-match-time {
-  left: 190px;
-  top: 606px;
-  width: 332px;
+  left: 80px;
+  top: 550px;
+  width: 377px;
   height: 76px;
   justify-content: center;
   padding: 0;
@@ -271,63 +271,63 @@ button {
 
 .period-minus,
 .period-plus {
-  top: 502px;
+  top: 446px;
   width: 70px;
   height: 68px;
   font-size: 43px;
 }
-.period-minus { left: 235px; }
-.period-plus { left: 423px; }
+.period-minus { left: 151px; }
+.period-plus { left: 339px; }
 
 .timer-controls {
   position: absolute;
-  left: 164px;
-  top: 703px;
-  width: 380px;
-  height: 76px;
+  left: 48px;
+  top: 636px;
+  width: 448px;
+  height: 96px;
 }
 
 .timer-button {
   top: 0;
-  width: 78px;
-  height: 70px;
-  font-size: 34px;
-  opacity: 0.58;
+  width: 106px;
+  height: 96px;
+  font-size: 40px;
+  opacity: 0.74;
 }
 
 .timer-button:nth-child(1) { left: 0; }
-.timer-button:nth-child(2) { left: 96px; }
-.timer-button:nth-child(3) { left: 192px; }
-.timer-button:nth-child(4) { left: 288px; }
-.timer-set { font-size: 20px; letter-spacing: 1px; }
+.timer-button:nth-child(2) { left: 114px; }
+.timer-button:nth-child(3) { left: 228px; }
+.timer-button:nth-child(4) { left: 342px; }
+.timer-set { font-size: 24px; letter-spacing: 1px; }
 
 .field-home-score,
 .field-away-score {
-  width: 90px;
+  width: 130px;
   height: 82px;
 }
-.field-home-score { left: 1025px; top: 598px; }
-.field-away-score { left: 1807px; top: 598px; }
+.field-home-score { left: 921px; top: 542px; }
+.field-away-score { left: 1703px; top: 542px; }
 .led-score {
   font-size: 73px;
   letter-spacing: 0;
 }
 
 .score-button {
-  top: 595px;
+  top: 539px;
   width: 92px;
   height: 90px;
   font-size: 54px;
   opacity: 0.48;
 }
-.home-score-minus { left: 914px; }
-.home-score-plus { left: 1131px; }
-.away-score-minus { left: 1700px; }
-.away-score-plus { left: 1917px; }
+.home-score-minus { left: 789px; }
+.home-score-plus { left: 1091px; }
+.away-score-minus { left: 1571px; }
+.away-score-plus { left: 1873px; }
 
 .fullscreen-button {
-  left: 2247px;
-  top: 925px;
+  left: 2163px;
+  top: 869px;
   width: 62px;
   height: 50px;
   font-size: 28px;
