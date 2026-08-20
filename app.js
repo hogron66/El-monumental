@@ -17,7 +17,8 @@
     matchEndAt: null,
     clockMode: 'live',
     clockCustomSeconds: 12 * 3600,
-    clockCustomSetAt: Date.now()
+    clockCustomSetAt: Date.now(),
+    boardScale: 1
   };
 
   const stage = document.getElementById('stage');
@@ -77,7 +78,7 @@
     }
 
     const loaded = { ...DEFAULT_STATE, ...saved };
-    loaded.title = normalizeBoardText(loaded.title ?? DEFAULT_STATE.title, 28) || DEFAULT_STATE.title;
+    loaded.title = normalizeBoardText(loaded.title ?? DEFAULT_STATE.title, 34) || DEFAULT_STATE.title;
     loaded.homeName = normalizeBoardText(loaded.homeName ?? DEFAULT_STATE.homeName, 18) || DEFAULT_STATE.homeName;
     loaded.awayName = normalizeBoardText(loaded.awayName ?? DEFAULT_STATE.awayName, 18) || DEFAULT_STATE.awayName;
     loaded.homeScore = clamp(Math.round(asFiniteNumber(loaded.homeScore, 0)), 0, MAX_SCORE);
@@ -90,6 +91,7 @@
     loaded.clockMode = loaded.clockMode === 'custom' ? 'custom' : 'live';
     loaded.clockCustomSeconds = ((Math.round(asFiniteNumber(loaded.clockCustomSeconds, DEFAULT_STATE.clockCustomSeconds)) % 86400) + 86400) % 86400;
     loaded.clockCustomSetAt = asFiniteNumber(loaded.clockCustomSetAt, Date.now());
+    loaded.boardScale = clamp(asFiniteNumber(loaded.boardScale, DEFAULT_STATE.boardScale), 0.75, 1.25);
 
     if (loaded.matchRunning && !loaded.matchEndAt) {
       loaded.matchEndAt = Date.now() + loaded.matchRemainingMs;
@@ -109,7 +111,8 @@
   function fitBoard() {
     const availableWidth = stage.clientWidth || window.innerWidth;
     const availableHeight = stage.clientHeight || window.innerHeight;
-    const scale = Math.min(availableWidth / BASE_WIDTH, availableHeight / BASE_HEIGHT);
+    const fittedScale = Math.min(availableWidth / BASE_WIDTH, availableHeight / BASE_HEIGHT);
+    const scale = fittedScale * state.boardScale;
     board.style.transform = `translate(-50%, -50%) scale(${scale})`;
   }
 
@@ -158,8 +161,8 @@
     const centerY = height / 2;
     const radius = Math.min(width, height) * 0.485;
     const seconds = getClockSeconds();
-    const hour = (seconds / 3600) % 12;
-    const minute = (seconds / 60) % 60;
+    const hour = Math.floor(seconds / 3600) % 12;
+    const minute = Math.floor(seconds / 60) % 60;
     const second = seconds % 60;
 
     context.save();
@@ -199,7 +202,7 @@
     context.textBaseline = 'middle';
     context.fillText('12', 0, -radius * 0.73);
 
-    drawClockHand(context, (hour + minute / 60) * Math.PI / 6, radius * 0.48, radius * 0.046, '#d8d8d4', radius * 0.08);
+    drawClockHand(context, (hour + minute / 60 + second / 3600) * Math.PI / 6, radius * 0.48, radius * 0.046, '#d8d8d4', radius * 0.08);
     drawClockHand(context, (minute + second / 60) * Math.PI / 30, radius * 0.70, radius * 0.035, '#e5e5e0', radius * 0.10);
     drawClockHand(context, second * Math.PI / 30, radius * 0.76, radius * 0.012, '#cfcfca', radius * 0.13);
 
@@ -230,8 +233,18 @@
     context.restore();
   }
 
+  function fitLedText(element, maxSize, minSize) {
+    let size = maxSize;
+    element.style.fontSize = `${size}px`;
+    while (element.scrollWidth > element.clientWidth && size > minSize) {
+      size -= 2;
+      element.style.fontSize = `${size}px`;
+    }
+  }
+
   function renderStaticDisplays() {
     fields.title.textContent = state.title;
+    fitLedText(fields.title, 72, 46);
     fields.homeName.textContent = state.homeName;
     fields.awayName.textContent = state.awayName;
     fields.period.textContent = String(state.period);
@@ -502,6 +515,51 @@
     );
   }
 
+  function openScaleDialog() {
+    const currentPercent = Math.round(state.boardScale * 100);
+    showDialog(
+      'Scoreboard scale',
+      `<label class="form-field">
+        <span>Display size</span>
+        <div class="scale-range-row">
+          <input id="scaleInput" type="range" min="75" max="125" step="5" value="${currentPercent}">
+          <output id="scaleValue" for="scaleInput">${currentPercent}%</output>
+        </div>
+      </label>
+      <div class="quick-buttons" aria-label="Quick scale choices">
+        <button type="button" data-scale="80">80%</button>
+        <button type="button" data-scale="90">90%</button>
+        <button type="button" data-scale="100">Fit</button>
+        <button type="button" data-scale="110">110%</button>
+        <button type="button" data-scale="125">125%</button>
+      </div>
+      <p class="dialog-note">100% fits the complete scoreboard to the available landscape screen. Larger values may crop the outer edges.</p>`,
+      () => {
+        const input = document.getElementById('scaleInput');
+        const output = document.getElementById('scaleValue');
+        const updateValue = () => {
+          output.value = `${input.value}%`;
+          output.textContent = `${input.value}%`;
+        };
+        input.addEventListener('input', updateValue);
+        dialogBody.querySelectorAll('[data-scale]').forEach((button) => {
+          button.addEventListener('click', () => {
+            input.value = button.dataset.scale;
+            updateValue();
+          });
+        });
+        updateValue();
+      },
+      () => {
+        const percent = clamp(Math.round(Number(document.getElementById('scaleInput').value) || 100), 75, 125);
+        state.boardScale = percent / 100;
+        saveState();
+        fitBoard();
+        showToast(`Scoreboard scale: ${percent}%`);
+      }
+    );
+  }
+
   function openScoreDialog(side) {
     const key = side === 'home' ? 'homeScore' : 'awayScore';
     const label = side === 'home' ? 'Home score' : 'Away score';
@@ -558,7 +616,7 @@
   }
 
   function bindEvents() {
-    document.getElementById('titleField').addEventListener('click', () => openNameDialog('title', 'Top text', 28));
+    document.getElementById('titleField').addEventListener('click', () => openNameDialog('title', 'Top text', 34));
     document.getElementById('homeNameField').addEventListener('click', () => openNameDialog('homeName', 'Home team name', 18));
     document.getElementById('awayNameField').addEventListener('click', () => openNameDialog('awayName', 'Away team name', 18));
     document.getElementById('clockButton').addEventListener('click', openClockDialog);
@@ -580,6 +638,7 @@
     document.getElementById('homeScoreField').addEventListener('click', () => openScoreDialog('home'));
     document.getElementById('awayScoreField').addEventListener('click', () => openScoreDialog('away'));
 
+    document.getElementById('scaleButton').addEventListener('click', openScaleDialog);
     document.getElementById('fullscreenButton').addEventListener('click', toggleFullscreen);
 
     dialogClose.addEventListener('click', closeDialog);
@@ -636,6 +695,10 @@
   fitBoard();
   renderAll();
   registerServiceWorker();
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(renderStaticDisplays).catch(() => {});
+  }
 
   window.setInterval(() => {
     drawClock();

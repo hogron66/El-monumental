@@ -1,4 +1,4 @@
-const CACHE_NAME = 'monumental78-v5';
+const CACHE_NAME = 'monumental78-v7';
 const ASSETS = [
   './',
   './index.html',

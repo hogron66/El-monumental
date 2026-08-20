@@ -94,6 +94,7 @@ button {
 .transparent-hit:focus-visible,
 .cabinet-button:focus-visible,
 .timer-button:focus-visible,
+.scale-button:focus-visible,
 .fullscreen-button:focus-visible {
   outline: 4px solid rgba(236, 236, 224, 0.78);
   outline-offset: 4px;
@@ -244,6 +245,7 @@ button {
 
 .cabinet-button,
 .timer-button,
+.scale-button,
 .fullscreen-button {
   position: absolute;
   display: grid;
@@ -262,6 +264,7 @@ button {
 
 .cabinet-button:active,
 .timer-button:active,
+.scale-button:active,
 .fullscreen-button:active {
   transform: translateY(2px);
   color: #fff;
@@ -325,16 +328,20 @@ button {
 .away-score-minus { left: 1571px; }
 .away-score-plus { left: 1873px; }
 
-.fullscreen-button {
-  left: 2163px;
-  top: 869px;
-  width: 62px;
-  height: 50px;
-  font-size: 28px;
-  opacity: 0.18;
+.fullscreen-button,
+.scale-button {
+  top: 744px;
+  width: 106px;
+  height: 78px;
+  font-size: 30px;
+  opacity: 0.42;
 }
+.fullscreen-button { left: 162px; }
+.scale-button { left: 276px; }
 .fullscreen-button:hover,
-.fullscreen-button:focus-visible { opacity: 0.8; }
+.fullscreen-button:focus-visible,
+.scale-button:hover,
+.scale-button:focus-visible { opacity: 0.82; }
 
 #rotateOverlay {
   position: fixed;
@@ -469,6 +476,23 @@ button {
 .form-field select:focus {
   border-color: #d4d4c9;
   box-shadow: 0 0 0 3px rgba(224, 224, 210, 0.14);
+}
+.scale-range-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 62px;
+  align-items: center;
+  gap: 14px;
+}
+.scale-range-row input[type="range"] {
+  min-height: 44px;
+  padding: 0;
+  accent-color: #deded4;
+}
+.scale-range-row output {
+  color: #f0f0e8;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 .form-row {
   display: grid;

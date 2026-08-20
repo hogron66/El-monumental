@@ -1,6 +1,10 @@
-El Monumental 1978 Scoreboard – v5
+El Monumental 1978 Scoreboard – v7
 
 What changed in this version:
+- Moves the fullscreen and scoreboard-scale controls next to each other beneath the four match-timer buttons.
+- Corrects the analog hour and minute hand calculations at times between full hours.
+- Adds a subtle lower-right scale control with a saved 75–125% size setting.
+- Allows six additional characters in the editable top scoreboard text (34 total) and automatically fits longer text.
 - Uses the refined Digital Background V2 as the only background.
 - Centers the working analog clock in the upper-left anthracite panel.
 - Aligns the period and match-time values with their dedicated display cells.
