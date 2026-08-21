@@ -1,4 +1,4 @@
-const CACHE_NAME = 'monumental78-v7';
+const CACHE_NAME = 'monumental78-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,10 @@ const ASSETS = [
   './manifest.webmanifest',
   './assets/scoreboard-clean.png',
   './assets/LED_BOARD_REVERSED.ttf',
+  './assets/referee-whistle.mp3',
+  './assets/button.mp3',
+  './assets/big-crowd-cheering.mp3',
+  './assets/stadium-crowd-loop.mp3',
   './assets/icon-192.png',
   './assets/icon-512.png'
 ];

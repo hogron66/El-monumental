@@ -43,11 +43,24 @@
   const canvases = {
     clock: document.getElementById('analogClock')
   };
+  const sounds = {
+    whistle: new Audio('assets/referee-whistle.mp3'),
+    reset: new Audio('assets/button.mp3'),
+    crowd: new Audio('assets/big-crowd-cheering.mp3'),
+    stadium: new Audio('assets/stadium-crowd-loop.mp3')
+  };
+  sounds.whistle.volume = 0.78;
+  sounds.reset.volume = 0.62;
+  sounds.crowd.volume = 0.68;
+  sounds.stadium.volume = 0.34;
+  sounds.stadium.loop = true;
+  Object.values(sounds).forEach((sound) => { sound.preload = 'auto'; });
 
   let state = loadState();
   let dialogSubmitHandler = null;
   let toastTimer = null;
   let timerFinishedHandled = false;
+  let stadiumSoundPlaying = false;
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -264,6 +277,7 @@
       state.matchEndAt = null;
       saveState();
       timerRunningLamp.classList.remove('is-running');
+      playEffect(sounds.whistle);
       if ('vibrate' in navigator) {
         navigator.vibrate([180, 100, 180]);
       }
@@ -281,11 +295,59 @@
     drawClock();
   }
 
+  function playEffect(sound) {
+    try {
+      sound.pause();
+      sound.currentTime = 0;
+      const playback = sound.play();
+      playback?.catch(() => {});
+    } catch {
+      // Audio remains optional when a browser blocks playback.
+    }
+  }
+
+  function renderStadiumSoundButton() {
+    const button = document.getElementById('stadiumSoundButton');
+    button.classList.toggle('is-active', stadiumSoundPlaying);
+    button.setAttribute('aria-pressed', String(stadiumSoundPlaying));
+    button.setAttribute('aria-label', stadiumSoundPlaying ? 'Stop stadium sounds' : 'Start stadium sounds');
+  }
+
+  async function toggleStadiumSound() {
+    if (stadiumSoundPlaying) {
+      sounds.stadium.pause();
+      stadiumSoundPlaying = false;
+      renderStadiumSoundButton();
+      showToast('Stadium sounds off');
+      return;
+    }
+
+    try {
+      await sounds.stadium.play();
+      stadiumSoundPlaying = true;
+      renderStadiumSoundButton();
+      showToast('Stadium sounds on');
+    } catch {
+      stadiumSoundPlaying = false;
+      renderStadiumSoundButton();
+      showToast('Tap again to enable stadium sounds');
+    }
+  }
+
+  function stopStadiumSound() {
+    sounds.stadium.pause();
+    sounds.stadium.currentTime = 0;
+    stadiumSoundPlaying = false;
+    renderStadiumSoundButton();
+  }
+
   function updateScore(side, delta) {
     const key = side === 'home' ? 'homeScore' : 'awayScore';
+    const previous = state[key];
     state[key] = clamp(state[key] + delta, 0, MAX_SCORE);
     saveState();
     fields[key].textContent = String(state[key]);
+    if (state[key] !== previous) playEffect(sounds.crowd);
   }
 
   function updatePeriod(delta) {
@@ -302,6 +364,7 @@
     timerFinishedHandled = false;
     saveState();
     renderTimer();
+    playEffect(sounds.whistle);
     showToast('Match timer started');
   }
 
@@ -312,6 +375,7 @@
       state.matchEndAt = null;
       saveState();
       renderTimer();
+      playEffect(sounds.whistle);
       showToast('Match timer paused');
     }
   }
@@ -323,6 +387,7 @@
     timerFinishedHandled = false;
     saveState();
     renderTimer();
+    playEffect(sounds.reset);
     showToast(`Reset to ${formatMatchTime(state.matchDurationMs)}`);
   }
 
@@ -638,6 +703,7 @@
     document.getElementById('homeScoreField').addEventListener('click', () => openScoreDialog('home'));
     document.getElementById('awayScoreField').addEventListener('click', () => openScoreDialog('away'));
 
+    document.getElementById('stadiumSoundButton').addEventListener('click', toggleStadiumSound);
     document.getElementById('scaleButton').addEventListener('click', openScaleDialog);
     document.getElementById('fullscreenButton').addEventListener('click', toggleFullscreen);
 
@@ -666,6 +732,8 @@
       if (!document.hidden) {
         fitBoard();
         renderAll();
+      } else if (stadiumSoundPlaying) {
+        stopStadiumSound();
       }
     });
     document.addEventListener('keydown', (event) => {
@@ -694,6 +762,7 @@
   bindEvents();
   fitBoard();
   renderAll();
+  renderStadiumSoundButton();
   registerServiceWorker();
 
   if (document.fonts?.ready) {

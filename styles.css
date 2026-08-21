@@ -94,6 +94,7 @@ button {
 .transparent-hit:focus-visible,
 .cabinet-button:focus-visible,
 .timer-button:focus-visible,
+.sound-button:focus-visible,
 .scale-button:focus-visible,
 .fullscreen-button:focus-visible {
   outline: 4px solid rgba(236, 236, 224, 0.78);
@@ -197,7 +198,7 @@ button {
 }
 
 .led-name {
-  font-size: 73px;
+  font-size: 65px;
 }
 
 .field-period {
@@ -245,6 +246,7 @@ button {
 
 .cabinet-button,
 .timer-button,
+.sound-button,
 .scale-button,
 .fullscreen-button {
   position: absolute;
@@ -264,6 +266,7 @@ button {
 
 .cabinet-button:active,
 .timer-button:active,
+.sound-button:active,
 .scale-button:active,
 .fullscreen-button:active {
   transform: translateY(2px);
@@ -312,7 +315,7 @@ button {
 .field-home-score { left: 921px; top: 542px; }
 .field-away-score { left: 1703px; top: 542px; }
 .led-score {
-  font-size: 73px;
+  font-size: 64px;
   letter-spacing: 0;
 }
 
@@ -328,6 +331,7 @@ button {
 .away-score-minus { left: 1571px; }
 .away-score-plus { left: 1873px; }
 
+.sound-button,
 .fullscreen-button,
 .scale-button {
   top: 744px;
@@ -336,12 +340,23 @@ button {
   font-size: 30px;
   opacity: 0.42;
 }
+.sound-button { left: 48px; }
 .fullscreen-button { left: 162px; }
 .scale-button { left: 276px; }
+.sound-button:hover,
+.sound-button:focus-visible,
 .fullscreen-button:hover,
 .fullscreen-button:focus-visible,
 .scale-button:hover,
 .scale-button:focus-visible { opacity: 0.82; }
+.sound-button.is-active {
+  color: #fff;
+  opacity: 0.92;
+  box-shadow:
+    inset 2px 2px 1px rgba(255,255,255,0.12),
+    inset -3px -3px 4px rgba(0,0,0,0.75),
+    0 0 12px rgba(245,245,232,0.32);
+}
 
 #rotateOverlay {
   position: fixed;

@@ -1,6 +1,11 @@
-El Monumental 1978 Scoreboard – v7
+El Monumental 1978 Scoreboard – v8
 
 What changed in this version:
+- Adds a whistle sound when the match timer starts, pauses, or reaches zero.
+- Adds the supplied button sound when the match timer is reset.
+- Adds the supplied crowd cheer whenever a score changes with the minus/plus controls.
+- Adds a looping stadium-atmosphere toggle in the lower control panel.
+- Reduces the team-name and score display sizes to sit more naturally on the LED-dot grid.
 - Moves the fullscreen and scoreboard-scale controls next to each other beneath the four match-timer buttons.
 - Corrects the analog hour and minute hand calculations at times between full hours.
 - Adds a subtle lower-right scale control with a saved 75–125% size setting.
